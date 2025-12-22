@@ -1,19 +1,30 @@
 
-export type Section = 'dashboard' | 'crop' | 'livestock' | 'soil' | 'weather' | 'chat' | 'database' | 'ml-lab';
+export type Section = 'dashboard' | 'crop' | 'livestock' | 'soil' | 'weather' | 'chat' | 'database' | 'ml-lab' | 'api-console';
+
+export interface ApiKeyRecord {
+  id: string;
+  name: string;
+  key: string;
+  created: string;
+  usage: number;
+  status: 'active' | 'revoked';
+}
 
 export interface DiagnosisResult {
   name: string;
-  plantName?: string; // The identified plant species
+  plantName?: string;
   severity: 'low' | 'medium' | 'high';
   causeType: 'fungal' | 'bacterial' | 'pest' | 'nutrient' | 'viral' | 'unknown';
   causeDescription: string;
   treatmentOrganic: string;
   treatmentChemical: string;
-  prevention: string; // Used for next season prevention
-  feedingAndCare?: string; // Specific to livestock
+  prevention: string;
+  feedingAndCare?: string;
   urgency?: string;
   firstAid?: string;
   vetCall?: string;
+  // Added source property to support sovereign vault tracking and fix inference engine errors
+  source?: string;
 }
 
 export interface AutomatedAgronomistResult {

@@ -35,8 +35,8 @@ const LivestockHealth: React.FC = () => {
     setError('');
     try {
       const meta = `${animalType}, Age: ${animalAge}`;
-      const regionalData = regionalDatabase.find(r => r.region === selectedRegion);
-      const data = await diagnoseLivestock(image || "", symptoms, meta, regionalData);
+      // Fix: diagnoseLivestock expects 3 arguments, removing regionalData
+      const data = await diagnoseLivestock(image || "", symptoms, meta);
       setResult(data);
     } catch (err) {
       setError('Analysis failed. Foundation model connection error.');

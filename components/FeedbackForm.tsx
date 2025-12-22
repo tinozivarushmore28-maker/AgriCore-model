@@ -1,30 +1,29 @@
 
 import React, { useState } from 'react';
+import { EvolutionService } from '../services/evolutionService';
 
 interface FeedbackFormProps {
   type: 'crop' | 'livestock' | 'soil' | 'weather' | 'chat';
   context?: string;
+  originalInput?: string;
+  originalOutput?: any;
 }
 
-const FeedbackForm: React.FC<FeedbackFormProps> = ({ type, context }) => {
+const FeedbackForm: React.FC<FeedbackFormProps> = ({ type, context, originalInput, originalOutput }) => {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const feedback = {
-      id: Math.random().toString(36).substr(2, 9),
-      type,
-      rating,
-      comment,
-      timestamp: Date.now(),
-      context
-    };
     
-    // Simulate API call to save feedback for retraining
-    const existing = JSON.parse(localStorage.getItem('agricore_feedback') || '[]');
-    localStorage.setItem('agricore_feedback', JSON.stringify([...existing, feedback]));
+    // Record interaction for the neural evolution engine
+    EvolutionService.recordInteraction(
+      originalInput || context || "Manual Feedback",
+      originalOutput || {},
+      rating,
+      comment
+    );
     
     setSubmitted(true);
   };
@@ -32,49 +31,52 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({ type, context }) => {
   if (submitted) {
     return (
       <div className="mt-6 p-4 bg-emerald-50 border border-emerald-100 rounded-2xl text-center animate-fadeIn">
-        <span className="text-2xl mb-2 block">🙏</span>
-        <h5 className="font-bold text-emerald-800">Thank you!</h5>
-        <p className="text-xs text-emerald-600">Your feedback helps improve our global farming model.</p>
+        <span className="text-2xl mb-2 block">🧠</span>
+        <h5 className="font-bold text-emerald-800">Knowledge Registered!</h5>
+        <p className="text-xs text-emerald-600">The brain is analyzing this feedback to grow its local logic.</p>
       </div>
     );
   }
 
   return (
     <div className="mt-8 border-t border-slate-100 pt-6">
-      <h5 className="text-sm font-bold text-slate-700 mb-4 flex items-center gap-2">
-        <span>💡</span> Was this recommendation accurate?
+      <h5 className="text-sm font-black text-slate-800 mb-4 flex items-center gap-2">
+        <span className="p-1.5 bg-emerald-100 rounded-lg">💡</span> Was this recommendation accurate?
       </h5>
       <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="flex gap-2">
+        <div className="flex gap-4">
           {[1, 2, 3, 4, 5].map((star) => (
             <button
               key={star}
               type="button"
               onClick={() => setRating(star)}
-              className={`text-2xl transition-transform hover:scale-110 ${rating >= star ? 'grayscale-0' : 'grayscale opacity-30'}`}
+              className={`text-3xl transition-all hover:scale-125 ${rating >= star ? 'grayscale-0' : 'grayscale opacity-20'}`}
             >
               ⭐
             </button>
           ))}
         </div>
         
-        <div className="flex gap-2">
+        <div className="flex gap-3">
           <input
             type="text"
             value={comment}
             onChange={(e) => setComment(e.target.value)}
-            placeholder="Tell us why it was (or wasn't) helpful..."
-            className="flex-1 p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs outline-none focus:border-emerald-500"
+            placeholder="Help me learn! What did I miss?"
+            className="flex-1 p-4 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-bold outline-none focus:border-emerald-500 shadow-inner"
           />
           <button
             type="submit"
             disabled={rating === 0}
-            className="px-4 py-2 bg-emerald-600 text-white rounded-xl text-xs font-bold disabled:opacity-30 disabled:cursor-not-allowed"
+            className="px-8 py-2 bg-emerald-600 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest disabled:opacity-30 disabled:cursor-not-allowed shadow-lg"
           >
-            Submit
+            Teach Brain
           </button>
         </div>
-        <p className="text-[10px] text-slate-400 italic">This feedback is used to fine-tune our regional agricultural models.</p>
+        <div className="flex items-center gap-2 text-[10px] text-slate-400 italic">
+          <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse"></span>
+          Self-Learning Protocol v7 enabled. Feedback is distilled into Private weights.
+        </div>
       </form>
     </div>
   );
