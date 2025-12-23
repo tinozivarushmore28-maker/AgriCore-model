@@ -13,6 +13,14 @@ import RegionalDatabase from './components/RegionalDatabase';
 import TrainingSimulator from './components/TrainingSimulator';
 import AutomatedAgronomist from './components/AutomatedAgronomist';
 import ApiConsole from './components/ApiConsole';
+import LiveFieldAssistant from './components/LiveFieldAssistant';
+import SeasonalIntelligence from './components/SeasonalIntelligence';
+import ErrorCorrectionHub from './components/ErrorCorrectionHub';
+import FarmingSimulation from './components/FarmingSimulation';
+import CulturalLearningHub from './components/CulturalLearningHub';
+import MemoryConsolidation from './components/MemoryConsolidation';
+import GlobalIntelligenceSharing from './components/GlobalIntelligenceSharing';
+import SafetyAuditHub from './components/SafetyAuditHub';
 
 const App: React.FC = () => {
   const [activeSection, setActiveSection] = useState<Section>('dashboard');
@@ -42,6 +50,14 @@ const App: React.FC = () => {
       case 'ml-lab': return <div className={sectionClasses}><AutomatedAgronomist /></div>;
       case 'api-console': return <div className={sectionClasses}><ApiConsole /></div>;
       case 'chat': return <div className={sectionClasses}><ChatAssistant /></div>;
+      case 'live-field': return <div className={sectionClasses}><LiveFieldAssistant /></div>;
+      case 'seasonal': return <div className={sectionClasses}><SeasonalIntelligence /></div>;
+      case 'error-hub': return <div className={sectionClasses}><ErrorCorrectionHub /></div>;
+      case 'simulation': return <div className={sectionClasses}><FarmingSimulation /></div>;
+      case 'culture': return <div className={sectionClasses}><CulturalLearningHub /></div>;
+      case 'memory': return <div className={sectionClasses}><MemoryConsolidation /></div>;
+      case 'global-sync': return <div className={sectionClasses}><GlobalIntelligenceSharing /></div>;
+      case 'safety-lab': return <div className={sectionClasses}><SafetyAuditHub /></div>;
       default: return <div className={sectionClasses}><Dashboard onNavigate={setActiveSection} /></div>;
     }
   };
@@ -68,7 +84,7 @@ const App: React.FC = () => {
           </div>
         </main>
 
-        {activeSection !== 'chat' && (
+        {activeSection !== 'chat' && activeSection !== 'live-field' && (
           <button 
             onClick={() => setActiveSection('chat')}
             className="fixed bottom-6 right-6 w-14 h-14 bg-emerald-600 text-white rounded-2xl shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-50 group border-4 border-white"

@@ -12,12 +12,20 @@ interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({ activeSection, setActiveSection, isOpen, onToggle }) => {
   const menuItems: { id: Section; label: string; icon: string; category: string }[] = [
     { id: 'dashboard', label: 'Global Monitor', icon: '📊', category: 'Overview' },
+    { id: 'live-field', label: 'Live Field Link', icon: '🛰️', category: 'Live Ops' },
+    { id: 'safety-lab', label: 'Safety Lab', icon: '🛡️', category: 'Intelligence' },
+    { id: 'global-sync', label: 'Global Sync', icon: '🌍', category: 'Intelligence' },
+    { id: 'memory', label: 'Neural Archive', icon: '🧠', category: 'Intelligence' },
+    { id: 'culture', label: 'Cultural Hub', icon: '🏺', category: 'Intelligence' },
+    { id: 'simulation', label: 'Virtual Field Lab', icon: '🎮', category: 'Intelligence' },
+    { id: 'seasonal', label: 'Seasonal Intel', icon: '📅', category: 'Intelligence' },
+    { id: 'error-hub', label: 'Failure Lab', icon: '🔬', category: 'Intelligence' },
     { id: 'crop', label: 'Crop Pathology', icon: '🌱', category: 'Analysis' },
     { id: 'livestock', label: 'Vet Diagnostics', icon: '🐄', category: 'Analysis' },
     { id: 'soil', label: 'Pedology Core', icon: '🪨', category: 'Analysis' },
     { id: 'weather', label: 'Climate Intel', icon: '☀️', category: 'Environmental' },
-    { id: 'database', label: 'Knowledge Base', icon: '🌍', category: 'Environmental' },
-    { id: 'ml-lab', label: 'ML Research Lab', icon: '🔬', category: 'Developer' },
+    { id: 'database', label: 'Knowledge Base', icon: '🏠', category: 'Environmental' },
+    { id: 'ml-lab', label: 'ML Research Lab', icon: '🏗️', category: 'Developer' },
     { id: 'api-console', label: 'Gateway Console', icon: '🔑', category: 'Developer' },
     { id: 'chat', label: 'AI Assistant', icon: '🤖', category: 'Support' },
   ];
@@ -27,12 +35,10 @@ const Sidebar: React.FC<SidebarProps> = ({ activeSection, setActiveSection, isOp
     if (window.innerWidth < 1024) onToggle();
   };
 
-  // Group items by category
   const categories = Array.from(new Set(menuItems.map(item => item.category)));
 
   return (
     <>
-      {/* Mobile Overlay */}
       {isOpen && (
         <div 
           className="fixed inset-0 bg-slate-900/40 backdrop-blur-md z-[60] lg:hidden animate-fadeIn" 
@@ -40,12 +46,10 @@ const Sidebar: React.FC<SidebarProps> = ({ activeSection, setActiveSection, isOp
         />
       )}
 
-      {/* Sidebar Aside */}
       <aside className={`
         fixed lg:static inset-y-0 left-0 z-[70] w-80 bg-emerald-950 text-white transform transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] border-r border-emerald-900/50 flex flex-col
         ${isOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full lg:translate-x-0'}
       `}>
-        {/* Branding Area */}
         <div className="p-8 lg:p-10">
           <div className="flex items-center gap-4 group cursor-pointer" onClick={() => handleNav('dashboard')}>
             <div className="w-12 h-12 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-[1.25rem] flex items-center justify-center text-3xl shadow-xl shadow-emerald-500/20 group-hover:rotate-12 transition-transform duration-500">🌾</div>
@@ -55,13 +59,12 @@ const Sidebar: React.FC<SidebarProps> = ({ activeSection, setActiveSection, isOp
               </h1>
               <div className="flex items-center gap-1.5 mt-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                <p className="text-[10px] text-emerald-300/60 uppercase font-black tracking-[0.15em]">Private Brain v7.0</p>
+                <p className="text-[10px] text-emerald-300/60 uppercase font-black tracking-[0.15em]">Private Brain v8.0</p>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Navigation Content */}
         <nav className="flex-1 px-4 lg:px-6 space-y-8 overflow-y-auto no-scrollbar py-4">
           {categories.map((cat) => (
             <div key={cat} className="space-y-2">
@@ -95,21 +98,15 @@ const Sidebar: React.FC<SidebarProps> = ({ activeSection, setActiveSection, isOp
           ))}
         </nav>
 
-        {/* Footer Info Area */}
         <div className="p-6 lg:p-8 mt-auto">
-          <div className="bg-emerald-900/30 p-5 rounded-[2rem] border border-white/5 backdrop-blur-sm group hover:border-emerald-500/30 transition-colors cursor-default">
+          <div className="bg-emerald-900/30 p-5 rounded-[2rem] border border-white/5 backdrop-blur-sm">
             <div className="flex items-center gap-3 mb-3">
               <div className="w-8 h-8 rounded-xl bg-emerald-500/20 flex items-center justify-center text-emerald-400 text-sm animate-pulse">📡</div>
               <div className="flex flex-col">
                 <span className="text-[10px] font-black text-emerald-400 uppercase tracking-widest leading-none mb-1">Inference Node</span>
-                <span className="text-[9px] text-emerald-100/40 font-bold uppercase tracking-tighter">ZW-Sovereign-Alpha</span>
+                <span className="text-[9px] text-emerald-100/40 font-bold uppercase tracking-tighter">GLOBAL-SOVEREIGN</span>
               </div>
             </div>
-            <p className="text-[11px] text-emerald-100/60 leading-relaxed font-medium">
-              Offline capacity: <span className="text-white font-black">100%</span>
-              <br />
-              Encryption: <span className="text-white font-black">Quantum-S</span>
-            </p>
           </div>
         </div>
       </aside>

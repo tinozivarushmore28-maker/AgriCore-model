@@ -1,9 +1,9 @@
 {
-  "name": "AgriCore Global AI Farming",
-  "description": "A comprehensive AI-powered agricultural foundation model for crop health, livestock diagnosis, soil analysis, and weather-aware farming advice.",
   "requestFramePermissions": [
     "camera",
-    "geolocation",
-    "microphone"
-  ]
+    "microphone",
+    "geolocation"
+  ],
+  "name": "",
+  "description": ""
 }

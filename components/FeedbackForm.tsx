@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { EvolutionService } from '../services/evolutionService';
+import { FailureReason } from '../types';
 
 interface FeedbackFormProps {
   type: 'crop' | 'livestock' | 'soil' | 'weather' | 'chat';
@@ -12,17 +13,18 @@ interface FeedbackFormProps {
 const FeedbackForm: React.FC<FeedbackFormProps> = ({ type, context, originalInput, originalOutput }) => {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState('');
+  const [failureReason, setFailureReason] = useState<FailureReason>('unknown');
   const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Record interaction for the neural evolution engine
     EvolutionService.recordInteraction(
       originalInput || context || "Manual Feedback",
       originalOutput || {},
       rating,
-      comment
+      comment,
+      rating <= 2 ? failureReason : undefined
     );
     
     setSubmitted(true);
@@ -56,6 +58,24 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({ type, context, originalInpu
             </button>
           ))}
         </div>
+
+        {rating > 0 && rating <= 2 && (
+          <div className="animate-fadeIn p-4 bg-red-50 border border-red-100 rounded-2xl space-y-3">
+             <label className="text-[10px] font-black text-red-600 uppercase tracking-widest">Failure Diagnosis: Why did it fail?</label>
+             <select 
+              value={failureReason} 
+              onChange={e => setFailureReason(e.target.value as FailureReason)}
+              className="w-full bg-white p-3 rounded-xl border border-red-200 text-xs font-bold outline-none"
+             >
+                <option value="unknown">Unknown / Mixed</option>
+                <option value="weather">Weather Patterns (Rain/Heat)</option>
+                <option value="soil">Soil Conditions (PH/Nutrients)</option>
+                <option value="timing">Incorrect Timing (Phase)</option>
+                <option value="pests">Pest Resistance / New strain</option>
+                <option value="practice">Inconsistent Application</option>
+             </select>
+          </div>
+        )}
         
         <div className="flex gap-3">
           <input

@@ -1,5 +1,55 @@
 
-export type Section = 'dashboard' | 'crop' | 'livestock' | 'soil' | 'weather' | 'chat' | 'database' | 'ml-lab' | 'api-console';
+export type Section = 'dashboard' | 'crop' | 'livestock' | 'soil' | 'weather' | 'chat' | 'database' | 'ml-lab' | 'api-console' | 'live-field' | 'seasonal' | 'error-hub' | 'simulation' | 'culture' | 'memory' | 'global-sync' | 'safety-lab';
+
+export type FarmingPhase = 'Planting' | 'Growth' | 'Harvest' | 'Post-Harvest' | 'Fallow';
+
+export type FailureReason = 'weather' | 'soil' | 'timing' | 'pests' | 'practice' | 'unknown';
+
+export type Language = 'English' | 'Shona' | 'Ndebele' | 'Swahili' | 'Yoruba' | 'French' | 'Hindi' | 'Spanish';
+
+export interface SafetyAuditResult {
+  safetyScore: number; // 0-100
+  environmentalImpact: 'low' | 'medium' | 'high';
+  risksDetected: string[];
+  safeAlternatives: string[];
+  longTermSoilHealthImpact: string;
+  waterSafetyNote: string;
+}
+
+export interface GlobalTransferResult {
+  sourceRegion: string;
+  targetRegion: string;
+  originalTechnique: string;
+  adaptationLogic: string;
+  refinedStrategy: string;
+  climateMatchScore: number;
+  potentialImpact: string;
+}
+
+export interface ConsolidationResult {
+  summary: string;
+  conflictsResolved: number;
+  outdatedArchived: number;
+  accuracyBoost: number;
+  refinedNodes: any[];
+}
+
+export interface HybridStrategy {
+  traditionalWisdom: string;
+  scientificValidation: string;
+  combinedRecommendation: string;
+  culturalNuance: string;
+  localLanguageOutput: string;
+}
+
+export interface SimulationResult {
+  steps: { phase: string, event: string, impact: string }[];
+  yieldPercentage: number;
+  soilHealthDelta: number;
+  profitability: number;
+  summary: string;
+  recommendedStrategy: string;
+}
 
 export interface ApiKeyRecord {
   id: string;
@@ -23,8 +73,8 @@ export interface DiagnosisResult {
   urgency?: string;
   firstAid?: string;
   vetCall?: string;
-  // Added source property to support sovereign vault tracking and fix inference engine errors
   source?: string;
+  safetyAudit?: SafetyAuditResult;
 }
 
 export interface AutomatedAgronomistResult {
@@ -44,6 +94,7 @@ export interface SoilResult {
   recommendedCrops: string[];
   fertilizerAdvice: string;
   compostAdvice: string;
+  nearbyLabs?: { title: string, uri: string }[];
 }
 
 export interface ChatMessage {
